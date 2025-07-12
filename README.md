@@ -12,6 +12,20 @@ BitzGraphは、BitzLabsエコシステム内でネットワーク図、フロー
     2.  **専用API (Builder API)**: C#やTypeScriptのコード上で動的にノードやエッジを追加し、`GraphAST`をプログラム的に構築できます。
 -   **レイアウトエンジン**: `GraphAST`を受け取り、グラフの自動レイアウトアルゴリズムを用いて各ノードとエッジの座標を計算し、その結果を描画プリミティブの集合である**`LayoutAST`**として出力します。（初期実装では外部のGraphvizエンジンとの連携を想定）
 
+## ✅ 初期開発ToDoリスト
+
+1.  **`GraphAST`の型定義**:
+    *   `IGraphNode`インターフェース(`IAstNode`継承)を定義。
+    *   `GraphNode`, `Node`, `Edge`クラスの「殻」を作成。`Attributes`プロパティも定義。
+2.  **専用API (ビルダー) の設計**:
+    *   `GraphBuilder`クラスを作成。`.AddNode("id", "label")`, `.AddEdge("fromId", "toId")`のようなメソッドで直感的にグラフを構築できるAPIを設計。
+3.  **パーサーの骨格**:
+    *   `DotParser`クラスを作成。
+    *   `Parse(string dotScript)`メソッドを実装し、`a -> b;`のような最も単純なDOT言語をパースして`GraphNode`を生成するロジックを実装。
+4.  **レイアウトエンジンのインターフェース**:
+    *   `GraphLayoutEngine`クラスを作成し、`Render(IGraphNode node)`メソッドを定義。
+    *   **外部エンジン連携**: `GraphAST`をDOT言語文字列にシリアライズし、Graphvizの`dot`コマンドを呼び出してレイアウト情報を取得するプロセスのための、基本的なラッパーを実装。
+
 ## このライブラリの位置づけ
 
 主に`BitzDoc`から利用され、Markdown文書内に様々な構造図を埋め込む機能を提供します。また、システムの依存関係やアーキテクチャを可視化するためのSDKとしても活用できます。
@@ -28,5 +42,3 @@ BitzGraphは、BitzLabsエコシステム内でネットワーク図、フロー
 -   `BitzAstCore`
 -   `BitzParser`
 -   `BitzLayout` (出力型として)
-
----
